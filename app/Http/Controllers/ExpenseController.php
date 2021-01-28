@@ -192,6 +192,7 @@ class ExpenseController extends Controller
 
 
 
+    
     //get food category
     public function foodCategory()
     {
