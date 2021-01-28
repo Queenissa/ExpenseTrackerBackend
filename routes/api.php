@@ -45,7 +45,7 @@ Route::middleware('auth:api')->group(function (){
     Route::get('/clothing', [ExpenseController::class, 'clothingCategory']);
     Route::get('/food', [ExpenseController::class, 'foodCategory']);
     Route::get('/savings', [ExpenseController::class, 'savingsCategory']);
-    Route::get('/transportation', [ExpenseController::class, 'transportionCategory']);
+    Route::get('/transportation', [ExpenseController::class, 'transportationCategory']);
     Route::get('/electricitybill', [ExpenseController::class, 'electricityBillCategory']);
     Route::get('/phonebill', [ExpenseController::class, 'phoneBillCategory']);
     Route::get('/waterbill', [ExpenseController::class, 'waterBillCategory']);
