@@ -55,6 +55,13 @@ Route::middleware('auth:api')->group(function (){
     Route::get('/chart/weekly', [ExpenseGraphController::class, 'weeklyChart']);
     Route::get('/chart/monthly', [ExpenseGraphController::class, 'monthlyChart']);
     Route::get('/chart/yearly', [ExpenseGraphController::class, 'yearlyChart']);
+
+
+    //Admin
+    Route::get('/users', [AdminController::class, 'getAllUsers'] );
+    Route::get('/userexpenses/history/{id}', [AdminController::class, 'getUserExpensesHistory']);
+    Route::delete('/users/delete/{id}', [AdminController::class, 'deleteUser']);
+
 });
 
 
