@@ -51,7 +51,7 @@ class ExpenseController extends Controller
 
 
     //method for deleting expense of specific user
-    public function deleteUserExpenses(Request $request, $id)
+    public function deleteUserExpenses($id)
     {
         $user = Auth::user();
         $response = [];
