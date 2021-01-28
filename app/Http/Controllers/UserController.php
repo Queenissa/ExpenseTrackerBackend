@@ -39,15 +39,7 @@ class UserController extends Controller
         return 'user is created successfully!';
     }
 
-    // This is to update User
-    public function updateUser(Request $request, $id) {
-        $user = User::find($id);
-        if(is_null($user)) {
-            return response()->json(['message' => 'User Not Found'], 404);
-        }
-        $user->update($request->all());
-        return response($user, 200);
-    }
+
 
     // This is to delete USer
     public function deleteUser(Request $request, $id) {
@@ -58,4 +50,20 @@ class UserController extends Controller
         $user->delete();
         return response()->json(null, 204);
     }
+
+
+
+     
+
+    // This is to update specific user profile
+    public function updateUser(Request $request, $id) {
+        $user = User::find($id);
+        if(is_null($user)) {
+            return response()->json(['message' => 'User Not Found'], 404);
+        }
+        $user->update($request->all());
+        return response($user, 200);
+    }
+
+
 }

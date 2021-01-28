@@ -13,40 +13,41 @@ use DB;
 class AdminController extends Controller
 {
     //Display All Users
-    public function allUsers()
+    public function getAllUsers()
     {
-        $admin = Auth::user();
-        if ($user)
-        {
-            $allUsers = User::all();
-            return $allUsers;
-        }
+        $allUsers = User::where('is_admin', 0)->orWhere('is_admin', null)->get();
+        return $allUsers;
     }
+
 
 
 
     //method for getting/viewing expenses history of specific user
-    public function getUserExpensesHistory(Request $request, $id)
+    public function getUserExpensesHistory($id)
     {
 
-        $response = [];
+        $data = Expense::select(
+            DB::raw('expense_category as category'),
+            DB::raw('sum(expense_amount) as amount'))
+            ->where('user_id', $id)
+           ->groupBy('category')
+           ->get();
 
-        try{
-            $userExpensesHistory = Expense::Where('user_id', $id)
-            ->groupBy('expense_category')  
-            ->select([DB::raw("SUM(expense_amount) as total_amount, expense_category")])
-            ->pluck('total_amount', 'expense_category');
-            $response["code"] = 200;
-            $response["userExpensesHistory"] = $userExpensesHistory;
-          
-          
+        //    dd($data);
+      
+        $array[] = ['Category', 'Amount'];
+
+        foreach($data as $key => $value)
+        {
+          $array[++$key] = [$value->category, $value->amount];
         }
-        catch(\Expense $e){
-            $response["error"] = "Record not found.";
-            $response["code"] = 400;
-        }
-        return response($response, $response["code"]);
+
+        return json_encode($array);
+        
+            
+        
     }
+
 
 
 
@@ -56,7 +57,8 @@ class AdminController extends Controller
         $response = [];
 
         try{
-            $user = DB::table('expenses')->where('id', $id )->delete();
+            DB::table('expenses')->where('user_id', $id )->delete();
+            DB::table('users')->where('id', $id )->delete();
             $response["code"] = 200;
             $response["message"] = "Record has been deleted";
         }

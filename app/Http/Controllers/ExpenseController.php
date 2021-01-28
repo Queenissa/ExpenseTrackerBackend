@@ -74,27 +74,28 @@ class ExpenseController extends Controller
 
 
    //method for updating expense of specific user
-    public function updateUserExpenses(Request $request, $id)
+    public function updateUserExpenses(Request $request,Expense $expense)
     {
-        $user = Auth::user();
-        $response = [];
+    
         try{
-            $update = DB::table('expenses')->where('user_id', $user->id)->where('id', $id)->update([
+            $expense->update([
                 'expense_amount'=> $request->expense_amount,
                 'note' => $request->note,
                 'expense_date'=>$request->expense_date,
                 'expense_category'=>$request->expense_category
             ]);
 
-            $response["message"] = "Record has been updated";
-            $response["code"] = 200;
+            return response('Record has been updated');
            
         }
         catch(\Exception $e){
+
+            
             $response["error"] = "Record not found. $e";
             $response["code"] = 400;
+            return response($response, $response['code']);
         }
-        return response($response, $response['code']);
+        
     }
 
 
@@ -165,7 +166,6 @@ class ExpenseController extends Controller
     {
         $user = Auth::user();
         $expenses = Expense::where('user_id', $user->id)->orderBy('expense_date', 'ASC')->get();
-        // $expenses = $user->expenses()->orderBy('expense_date','DSC')->get();
         return $expenses;
     }
 
@@ -180,7 +180,6 @@ class ExpenseController extends Controller
     }
 
 
-
     //get clothing category
     public function clothingCategory()
     {
@@ -192,7 +191,7 @@ class ExpenseController extends Controller
 
 
 
-    
+
     //get food category
     public function foodCategory()
     {
@@ -208,7 +207,7 @@ class ExpenseController extends Controller
     public function electricityBillCategory()
     {
         $user = Auth::user();
-        $electriceityBillCategory = Expense::where('user_id', $user->id)->where('expense_category', 'Electricity Bill')->orderBy('expense_date', 'ASC')->get();
+        $electriceityBillCategory = Expense::where('user_id', $user->id)->where('expense_category', 'Electricity')->orderBy('expense_date', 'ASC')->get();
         return $electriceityBillCategory;
     }
 
@@ -219,7 +218,7 @@ class ExpenseController extends Controller
     public function personalCareCategory()
     {
         $user = Auth::user();
-        $personalCareCategory = Expense::where('user_id', $user->id)->where('expense_category', 'Personal Care')->orderBy('expense_date', 'ASC')->get();
+        $personalCareCategory = Expense::where('user_id', $user->id)->where('expense_category', 'Personal')->orderBy('expense_date', 'ASC')->get();
         return $personalCareCategory;
     }
 
@@ -229,7 +228,7 @@ class ExpenseController extends Controller
     public function waterBillCategory()
     {
         $user = Auth::user();
-        $waterBillCategory = Expense::where('user_id', $user->id)->where('expense_category', 'Water Bill')->orderBy('expense_date', 'ASC')->get();
+        $waterBillCategory = Expense::where('user_id', $user->id)->where('expense_category', 'Water')->orderBy('expense_date', 'ASC')->get();
         return $waterBillCategory;
     }
 
@@ -239,7 +238,7 @@ class ExpenseController extends Controller
     public function phoneBillCategory()
     {
         $user = Auth::user();
-        $phoneBillCategory = Expense::where('user_id', $user->id)->where('expense_category', 'Phone Bill')->orderBy('expense_date', 'ASC')->get();
+        $phoneBillCategory = Expense::where('user_id', $user->id)->where('expense_category', 'Phone')->orderBy('expense_date', 'ASC')->get();
         return $phoneBillCategory;
     }
 

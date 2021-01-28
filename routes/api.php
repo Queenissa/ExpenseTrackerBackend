@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ExpenseGraphController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -37,7 +38,7 @@ Route::middleware('auth:api')->group(function (){
     Route::get('/userexpenses', [ExpenseController::class, 'getExpenseOfUser']);   
     Route::get('/userexpenses/{id}', [ExpenseController::class, 'getExpenseOfUserById']);
     Route::get('/userexpensesbycategory', [ExpenseController::class, 'getExpenseOfUserByCategory']);
-    Route::put('/expenses/update/{id}', [ExpenseController::class, 'updateUserExpenses']);
+    Route::put('/expenses/update/{expense}', [ExpenseController::class, 'updateUserExpenses']);
     Route::delete('/expenses/delete/{id}', [ExpenseController::class, 'deleteUserExpenses']);
 
     Route::get('/expenses/search/{amount}', [ExpenseController::class, 'searchExpense']);
@@ -58,13 +59,17 @@ Route::middleware('auth:api')->group(function (){
 
 
     //Admin
-    Route::get('/users', [AdminController::class, 'getAllUsers'] );
-    Route::get('/userexpenses/history/{id}', [AdminController::class, 'getUserExpensesHistory']);
-    Route::delete('/users/delete/{id}', [AdminController::class, 'deleteUser']);
+    // Route::get('/users', [AdminController::class, 'getAllUsers'] );
+    // Route::get('/userexpenses/history/{id}', [AdminController::class, 'getUserExpensesHistory']);
+    // Route::delete('/users/delete/{id}', [AdminController::class, 'deleteUser']);
 
 });
 
 
 Route::post('/expenses/add',[ExpenseController::class,'addValidatedUserExpenses']);
+
+Route::get('/allUsers', [AdminController::class, 'getAllUsers'] );
+Route::get('/userexpenses/history/{id}', [AdminController::class, 'getUserExpensesHistory']);
+Route::delete('/user/delete/{id}', [AdminController::class, 'deleteUser']);
 
 
